@@ -26,9 +26,28 @@ var listCmd = &cobra.Command{
 			return                          // Exits the function if there are no tasks
 		}
 
-		fmt.Println("List Tasks")    // Prints a header for the task list
-		for i, task := range tasks { // Iterates over the tasks
-			fmt.Printf("%d. %s\n", i+1, task.Description) // Prints each task with its index
+		// Create a map to group tasks by their group
+		groupTasks := make(map[string][]todo.Task) // Creates a map to store tasks by group
+		for _, task := range tasks {
+			// fmt.Println(task)                                             // Iterates over the tasks
+			groupTasks[task.Group] = append(groupTasks[task.Group], task) // Appends the task to the group
+		}
+
+		fmt.Printf("List Tasks:\n") // Prints a header for the task list
+		// for i, task := range tasks { // Iterates over the tasks
+		// 	fmt.Printf("%d. %s\n", i+1, task.Description) // Prints each task with its index
+		// }
+
+		// Print tasks by group
+		for group, tasks := range groupTasks {
+			fmt.Printf(">>> Group : %s\n", group)
+			for i, task := range tasks {
+				status := "Pending"
+				if task.Status == todo.Completed {
+					status = "Completed"
+				}
+				fmt.Printf("%d. %s\t status: %s\n", i+1, task.Description, status)
+			}
 		}
 	},
 }

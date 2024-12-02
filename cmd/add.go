@@ -17,9 +17,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// message holds the task description provided via command-line flag
-var message string
-
 // addCmd represents the 'add' command in the CLI application
 var addCmd = &cobra.Command{
 	Use:     "add",                               // Command name
@@ -56,8 +53,26 @@ var addCmd = &cobra.Command{
 			return                                    // Exit the function
 		}
 
+		// Check the task exists
+		if len(tasks) != 0 {
+			for _, task := range tasks {
+				if strings.TrimSpace(task.Description) == strings.TrimSpace(todoDescription) {
+					fmt.Println("Task already exists")
+					return
+				}
+			}
+		}
+
+		// Get the value of the 'group' flag from the command
+		group, _ := cmd.Flags().GetString("group")
+
+		if group == "" {
+			group = "default"
+		}
+
 		// Append the new task to the existing list of tasks
-		tasks = append(tasks, todo.Task{Description: todoDescription})
+		tasks = append(tasks, todo.Task{Description: todoDescription, Group: group, Status: todo.Pending})
+
 		// Save the updated list of tasks back to the file
 		err = store.SaveTasks(tasks)
 		// Handle any errors that occur during task saving
@@ -67,7 +82,7 @@ var addCmd = &cobra.Command{
 		}
 
 		// Confirm to the user that the task has been added successfully
-		fmt.Printf("Added task: %s\n", todoDescription)
+		fmt.Printf("Added task: %s, Group is: %s\n", todoDescription, group)
 	},
 }
 
@@ -75,4 +90,5 @@ var addCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(addCmd)                                                      // Register the addCmd with the root command
 	addCmd.Flags().StringVarP(&message, "description", "d", "", "Task description") // Define the 'description' flag with shorthand 'd'
+	addCmd.Flags().StringP("group", "g", "", "Task Group")                          // Define the 'group' flag with shorthand 'g'
 }
