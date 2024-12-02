@@ -9,6 +9,13 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var (
+	cfgFile     string
+	packageBase string
+	userLicense string
+	Region      string
+)
+
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "todo",
@@ -24,6 +31,7 @@ func Execute() {
 }
 
 func init() {
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	rootCmd.Flags().StringP("config", "c", "", "config file")
+	rootCmd.Flags().StringVarP(&Region, "region", "r", "us-west-2", "AWS region")
+	rootCmd.MarkFlagsOneRequired("region")
 }
