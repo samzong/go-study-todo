@@ -11,3 +11,13 @@
 - [x] 列出所有 todo 项
 - [ ] 标记 todo 项为完成
 - [x] 删除 todo 项
+
+## 代码理解增强
+
+请逐行为我的 Go 代码添加注释。作为一名专业的 Go 工程师，请在注释中详细说明每行代码的数据类型、语法格式、在程序中的作用，
+以及所使用的库包。所有解释都通过注释的形式添加到代码中。
+
+Please add comments to my Go code line by line. As a professional Go engineer,
+provide detailed explanations for each line, including data types, syntax structure,
+purpose within the program, and the libraries used.
+All explanations should be added as comments within the code.
