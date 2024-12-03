@@ -23,6 +23,7 @@
 - [x] 标记 todo 项为完成， 完成状态为 Completed
 - [x] 删除 todo 项
 - [x] 支持搜索功能
+- [x] 支持命名错误时，给出建议命令
 
 ## 代码理解增强
 
@@ -142,4 +143,16 @@ Task: learn golang	Status: completed
 (base) samzonglu in ~/Git/goprojs/go-study-todo on main ● ● λ ./mytodo search -k "learn" -g golang
 >>> Group: golang
 Task: learn golang	Status: completed
+```
+
+### suggestion cmd
+
+```bash
+(base) samzonglu in ~/Git/goprojs/go-study-todo on main ● λ ./mytodo adc
+Error: unknown command "adc" for "todo"
+
+Did you mean this?
+	add
+
+Run 'todo --help' for usage.
 ```

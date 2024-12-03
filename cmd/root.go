@@ -53,4 +53,5 @@ func init() {
 	rootCmd.Flags().StringVarP(&Region, "region", "r", "us-west-2", "AWS region <required>")
 	// Marking the region flag as required
 	rootCmd.MarkFlagsOneRequired("region")
+	rootCmd.TraverseChildren = false
 }
