@@ -33,7 +33,7 @@ var listCmd = &cobra.Command{
 			groupTasks[task.Group] = append(groupTasks[task.Group], task) // Appends the task to the group
 		}
 
-		fmt.Printf("List Tasks:\n") // Prints a header for the task list
+		fmt.Println("List All Tasks:") // Prints a header for the task list
 		// for i, task := range tasks { // Iterates over the tasks
 		// 	fmt.Printf("%d. %s\n", i+1, task.Description) // Prints each task with its index
 		// }

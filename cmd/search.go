@@ -5,6 +5,8 @@ package cmd
 
 import (
 	"fmt"
+	"strings"
+	"todo/todo"
 
 	"github.com/spf13/cobra"
 )
@@ -20,20 +22,64 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("search called")
+		store := &todo.Store{FilePath: "todo.json"} // Creates a new Store instance with the file path 'todo.json'
+		tasks, err := store.LoadTasks()             // Loads tasks from the file
+
+		if err != nil {
+			panic(err)
+			fmt.Println("Error loading tasks: ", err)
+			return
+		}
+
+		if len(tasks) == 0 {
+			fmt.Println("No tasks to list")
+			return
+		}
+
+		groupedTasks := make(map[string][]todo.Task) // Create a map to group tasks by their group
+
+		group := strings.TrimSpace(cmd.Flag("group").Value.String())
+		keywords := strings.TrimSpace(cmd.Flag("keywords").Value.String())
+
+		if keywords == "" {
+			fmt.Println("Please provide a keywords")
+			return
+		}
+
+		if group != "" {
+			for _, task := range tasks {
+				if task.Group == group {
+					if strings.Contains(task.Description, keywords) {
+						groupedTasks[task.Group] = append(groupedTasks[task.Group], task)
+					}
+				}
+			}
+		} else {
+			for _, task := range tasks {
+				if strings.Contains(task.Description, keywords) {
+					groupedTasks[task.Group] = append(groupedTasks[task.Group], task)
+				}
+			}
+		}
+
+		if len(groupedTasks) == 0 {
+			fmt.Println("No tasks found")
+			return
+		}
+
+		// Print completed tasks by group
+		for group, tasks := range groupedTasks {
+			fmt.Printf(">>> Group: %s\n", group)
+			for _, task := range tasks {
+				fmt.Printf("Task: %s\tStatus: %s\n", task.Description, task.Status)
+			}
+		}
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(searchCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// searchCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// searchCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	searchCmd.Flags().StringP("keywords", "k", "", "Search tasks by keywords <required>")
+	searchCmd.MarkFlagRequired("keywords")
+	searchCmd.Flags().StringP("group", "g", "", "Group tasks by group")
 }

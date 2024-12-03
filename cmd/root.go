@@ -48,9 +48,9 @@ func Execute() {
 // init function initializes the flags and configuration settings
 func init() {
 	// Adding a string flag for the configuration file with shorthand "c"
-	rootCmd.Flags().StringP("config", "c", "", "config file")
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.todo.yaml)")
 	// Adding a string flag for the AWS region with shorthand "r" and default value "us-west-2"
-	rootCmd.Flags().StringVarP(&Region, "region", "r", "us-west-2", "AWS region")
+	rootCmd.Flags().StringVarP(&Region, "region", "r", "us-west-2", "AWS region <required>")
 	// Marking the region flag as required
 	rootCmd.MarkFlagsOneRequired("region")
 }

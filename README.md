@@ -13,6 +13,7 @@
 - [x] 支持将事项保存到 todo.json
 - [x] 列出所有 todo 项
   - [x] 支持根据任务分组展示
+  - [x] 支持使用 `done` 子命令快速查看已完成的任务
 - [x] 支持 任务划分 group, 默认为 default，支持创建任务时，通过 -g 传入自定义任务名称
 - [x] 支持任务状态管理，创建后，任务状态为 Pending
 - [x] 支持更新任务
@@ -21,6 +22,7 @@
   - [x] 更新任务分组
 - [x] 标记 todo 项为完成， 完成状态为 Completed
 - [x] 删除 todo 项
+- [x] 支持搜索功能
 
 ## 代码理解增强
 
@@ -109,4 +111,35 @@ List Tasks:
 >>> Group : default
 1. learn cobra   status: Completed
 2. jack  status: Completed
+```
+
+### search task
+
+```bash
+(base) samzonglu in ~/Git/goprojs/go-study-todo on main ● ● λ ./mytodo search -h
+A longer description that spans multiple lines and likely contains examples
+and usage of using your command. For example:
+
+Cobra is a CLI library for Go that empowers applications.
+This application is a tool to generate the needed files
+to quickly create a Cobra application.
+
+Usage:
+  todo search [flags]
+
+Flags:
+  -g, --group string      Group tasks by group
+  -h, --help              help for search
+  -k, --keywords string   Search tasks by keywords <required>
+
+Global Flags:
+      --config string   config file (default is $HOME/.todo.yaml)
+(base) samzonglu in ~/Git/goprojs/go-study-todo on main ● ● λ ./mytodo search -k "learn"
+>>> Group: default
+Task: learn cobra	Status: completed
+>>> Group: golang
+Task: learn golang	Status: completed
+(base) samzonglu in ~/Git/goprojs/go-study-todo on main ● ● λ ./mytodo search -k "learn" -g golang
+>>> Group: golang
+Task: learn golang	Status: completed
 ```
