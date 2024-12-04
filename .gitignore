@@ -10,6 +10,7 @@
 
 # Dependencies
 website/node_modules/
+website/build/
 
 # Production
 /build
