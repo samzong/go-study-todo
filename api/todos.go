@@ -7,7 +7,7 @@ import (
 
 func todosHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "Application/json")
-	log.Println(r.Method, "/api/v1/todos")
+	log.Printf(r.Method, "/api/v1/todos")
 
 	switch r.Method {
 	case http.MethodGet:

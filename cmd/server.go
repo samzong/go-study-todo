@@ -15,7 +15,7 @@ var serverCmd = &cobra.Command{
 	Long:  `Start, the API Server to manage tasks`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// Start the API server
-		port := strings.TrimSpace(cmd.Flag("group").Value.String())
+		port := strings.TrimSpace(cmd.Flag("port").Value.String())
 		address := strings.TrimSpace(cmd.Flag("address").Value.String())
 		api.StartServer(address, port)
 	},

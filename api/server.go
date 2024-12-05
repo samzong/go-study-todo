@@ -15,4 +15,5 @@ func StartServer(address string, port string) {
 
 func init() {
 	http.HandleFunc("/", handler)
+	http.HandleFunc("/api/v1/todos", todosHandler)
 }
